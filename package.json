@@ -1,0 +1,25 @@
+{
+  "name": "nw-nms",
+  "version": "0.0.1",
+  "description": "A web application to implement a single network management system using nodejs wrapper for net-snmp tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "lab -c 100"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidenq/nw-nms.git"
+  },
+  "keywords": [
+    "net-snmp",
+    "nodejs",
+    "wrapper",
+    "nms"
+  ],
+  "author": "David Núñez <davip@live.com - david.nunez.dev@gmail.com - http://davidenq.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidenq/nw-nms/issues"
+  },
+  "homepage": "https://github.com/davidenq/nw-nms#readme"
+}
