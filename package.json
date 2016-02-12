@@ -1,8 +1,8 @@
 {
   "name": "nw-nms",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A web application to implement a single network management system using nodejs wrapper for net-snmp tools",
-  "main": "index.js",
+  "main": "./server.js",
   "scripts": {
     "test": "lab -c 100"
   },
@@ -21,5 +21,12 @@
   "bugs": {
     "url": "https://github.com/davidenq/nw-nms/issues"
   },
-  "homepage": "https://github.com/davidenq/nw-nms#readme"
+  "homepage": "https://github.com/davidenq/nw-nms#readme",
+  "dependencies": {
+    "hapi": "^13.0.0",
+    "hapi-marko": "^0.3.2",
+    "hoek": "^3.0.4",
+    "inert": "^3.2.0",
+    "marko": "^2.8.2"
+  }
 }
