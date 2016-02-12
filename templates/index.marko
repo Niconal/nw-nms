@@ -1,0 +1,185 @@
+<layout-use template="./layout/master.marko" show-header="$true">
+    <layout-put into="content">
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                <section class="panel general">
+                    <header class="panel-heading tab-bg-dark-navy-blue">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a data-toggle="tab" href="#beginner">Básico</a>
+                            </li>
+                            <li class="">
+                                <a data-toggle="tab" href="#expert">Experto</a>
+                            </li>
+                        </ul>
+                    </header>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div id="beginner" class="tab-pane active">
+                                <div class="col-lg-12 col-md-12">
+                                    <section class="panel">
+                                        <form class="form-horizontal tasi-form" method="get">
+                                            <div class="form-group">
+                                                <label style="width: 100%; border: 0px solid #000">Seleccione la versión de SNMP que desea utilizar</label><br/>
+                                                <div class="col-md-6 radio">
+                                                    <label><input type="radio" name="snmp" value="v2c" id="v2c-button" checked="" onclick="return exec();"> Versión 2c</label>
+                                                    <label><input type="radio" name="snmp" value="v3" id="v3-button" onclick="return exec();"> Versión 3</label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </section>
+                                    <hr>
+                                    <secttion class="v2c box" id="v2c" style="display:none">
+                                        <form role="form">
+                                            <div class="form-group">
+                                                <input id="community" class="form-control" name="community" type="text" placeholder="Nombre de la comunidad / password"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="community" class="form-control" name="community" type="text" placeholder="OID"/>
+                                            </div>
+                                            <button id="submitCode" name="submitCode" class="btn btn-info" type="button" onclick="return snmp();">Ejecutar</button>
+                                        </form>
+                                    </secttion>
+                                    <secttion class="v3 box"  id="v3" style="display:none">
+                                        <div class="form-group">
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="form-group">
+                                                    <label>Nombre de securidad:</label>
+                                                    <input class="form-control" id="securityName" name="securityName" placeholder="security name" type="text">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:100%">Protocolo de autenticación:
+                                                        <select class="form-control m-b-10">
+                                                            <option value="MD5">MD5</option>
+                                                            <option value="SHA">SHA</option>
+                                                            <option value="null">Ninguno</option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:100%">Protocolo de privacidad:
+                                                        <select class="form-control m-b-10">
+                                                            <option value="AES">AES</option>
+                                                            <option value="DES">DES</option>
+                                                            <option value="null">Ninguno</option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Clave de autenticación:</label>
+                                                    <input class="form-control" id="authkey" name="authkey" placeholder="auth key" type="text">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Clave de privacidad:</label>
+                                                    <input class="form-control" id="securityName" name="privKey" placeholder="priv key" type="text">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:100%">Nivel de seguridad
+                                                        <select class="form-control m-b-10">
+                                                            <option value="noAuthNoPriv">noAuthNoPriv</option>
+                                                            <option value="authNoPriv">authNoPriv</option>
+                                                            <option value="authPriv">authPriv</option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Contexto:</label>
+                                                    <input class="form-control" id="securityName" name="context" placeholder="context" type="text">
+                                                </div>
+
+                                                <button id="submitCode" name="submitCode" class="btn btn-info" type="button" onclick="return snmp();">Ejecutar</button>
+                                            </div>
+                                        </div>
+
+                                    </secttion>
+                                </div>
+                            </div>
+                            <div id="expert" class="tab-pane" >
+                                <div class="col-lg-12 col-md-12">
+                                    <section class="panel">
+                                        <header class="panel-heading">
+                                            Comando
+                                        </header>
+                                        <div class="panel-body">
+                                            <p>Usted puede ejecutar los comandos tal y como se ejecutan en Linux; inclusive con argumentos, utilizar --help, etc.</p>
+                                            <form role="form">
+                                                <div class="form-group">
+                                                    <input id="command" class="form-control" name="commandSNMP" type="text" placeholder="ejemplo: service snmpd status o ifconfig --help"/>
+                                                </div>
+                                                <button id="submitCode" name="submitCode" class="btn btn-info" type="button" onclick="return snmp();">Ejecutar</button>&nbsp;&nbsp;&nbsp;
+                                                <a class="btn btn-success" data-toggle="modal" href="#myModal">Ver lista de comandos</a>
+                                            </form>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:20px; margin:20px;"></div>
+                </section>
+            </div>
+            <div class="col-md-8">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Resultado
+                    </header>
+                    <section class="panel">
+                        <div class="panel-body">
+                            <textarea rows="22" cols="100" id="outcome" disabled></textarea>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+        <!--modalbox-->
+        <div style="display: none;" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Lista de comandos disponibles</h4>
+                    </div>
+                    <div class="modal-body">
+                        <header class="panel-heading">
+                            Lista de comandos permitidos <br><span style="font-size:11px">Los comandos marcados con (*), se ejecutan localmente en el servidor</span>
+                        </header>
+                        <ol>
+                            <li>*service</li>
+                            <li>*ifconfig</li>
+                            <li>*grep</li>
+                            <li>snmptranslate</li>
+                            <li>snmpget</li>
+                            <li>snmpgetnext</li>
+                            <li>snmpwalk</li>
+                            <li>snmptable</li>
+                            <li>snmpset</li>
+                            <li>snmptrap</li>
+                            <li>snmpinform</li>
+                        </ol>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+        <script src="/assets/js/websockets.js"></script>
+        <script>
+        (function(){
+            exec();
+        })();
+        function exec(){
+            if (document.getElementById('v2c-button').checked) {
+                document.getElementById('v2c').style.display = 'block';
+                document.getElementById('v3').style.display = 'none';
+            }
+
+            if (document.getElementById('v3-button').checked) {
+                document.getElementById('v2c').style.display = 'none';
+                document.getElementById('v3').style.display = 'block';
+            }
+        }
+        </script>
+    </layout-put>
+</layout-use>
