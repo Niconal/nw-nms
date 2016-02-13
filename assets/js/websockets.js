@@ -16,10 +16,13 @@ function snmpOptions() {
         var oid = document.getElementById('oid').value;
         var snmpValue = document.getElementById('snmpValue').value;
 
-        fullCommand = netSnmpCommand + ' -c ' + community + ' -v 2c ' + ipV4V6 + ' ' + oid;
+        if(netSnmpCommand != 'snmptrap'){
 
-        if(snmpValue){
-            fullCommand += ' s ' + snmpValue;
+            fullCommand = netSnmpCommand + ' -c ' + community + ' -v 2c ' + ipV4V6 + ' ' + oid;
+
+            if(snmpValue){
+                fullCommand += ' s ' + snmpValue;
+            }
         }
 
         connSocket(fullCommand);
