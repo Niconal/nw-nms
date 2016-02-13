@@ -1,6 +1,6 @@
 {
   "name": "nw-nms",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A web application to implement a single network management system using nodejs wrapper for net-snmp tools",
   "main": "./server.js",
   "scripts": {
