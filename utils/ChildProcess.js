@@ -2,36 +2,53 @@
 
 class ChildProcess {
 
-    constructor(){
+    constructor() {
         this.spawn = require('child_process').spawn;
     }
 
-    exec(command, args, next) {
+    exec(command, args, commandAll, next) {
 
-        const ps = this.spawn(command, args);
+        if (args.length > 6) {
+            const exec = require('child_process').exec
+            const child = exec(commandAll, (err, stdout, stderr) => {
 
-        ps.stdout.on('data', function (data) {
+                if (err) {
+                    next(err);
+                }
+                if (stderr) {
+                    next(stderr);
+                }
+                console.log(commandAll)
+                next(null, stdout);
+            });
+        } else {
 
-            const info = data.toString('utf8');
-            next(info);
-        });
+            console.log(commandAll);
+            const ps = this.spawn(command, args);
 
-        ps.stdout.on('end', function(data) {
-            console.log('ending');
-        });
+            ps.stdout.on('data', function(data) {
 
-        ps.stderr.on('data', (data) => {
+                const info = data.toString('utf8');
+                next(null, info);
+            });
 
-            const info = data.toString('utf8');
-            next(info);
-        });
+            ps.stdout.on('end', function(data) {
+                console.log('ending');
+            });
 
-        ps.on('exit', function(code) {
+            ps.stderr.on('data', (err) => {
 
-            if (code != 0) {
-                next(code);
-            }
-        });
+                const info = err.toString('utf8');
+                next(info);
+            });
+
+            ps.on('exit', function(code) {
+
+                if (code != 0) {
+                    next(null, code);
+                }
+            });
+        }
     }
 }
 

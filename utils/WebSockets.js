@@ -5,7 +5,7 @@ const ChildProcess = require('./ChildProcess');
 
 const cp = new ChildProcess();
 
-exports.register = function (server, options, next) {
+exports.register = function(server, options, next) {
 
     const io = require('socket.io')(server.listener);
 
@@ -17,7 +17,9 @@ exports.register = function (server, options, next) {
             const command = commandAll[0];
 
             if (commands.indexOf(command) == -1) {
-                conn.emit('response', {outcome: 'Comando no disponible'});
+                conn.emit('response', {
+                    outcome: 'Comando no disponible'
+                });
             } else {
 
                 const size = commandAll.length;
@@ -27,12 +29,17 @@ exports.register = function (server, options, next) {
                     args.push(commandAll[i]);
                 }
 
-                cp.exec(command, args, (stdout) => {
+                cp.exec(command, args, data.command, (err, stdout) => {
 
-                    if(stdout) {
-                        conn.emit('response', {outcome: stdout});
+                    if (stdout) {
+                        conn.emit('response', {
+                            outcome: stdout
+                        });
+                        console.log(stdout);
                     } else {
-                        conn.emit('response', {outcome: false});
+                        conn.emit('response', {
+                            outcome: err
+                        });
                     }
                 });
             }

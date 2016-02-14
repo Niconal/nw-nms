@@ -7,40 +7,56 @@ function snmpCommand() {
 
 function snmpOptions() {
 
-    var fullCommand= '';
+    var fullCommand = '';
     if (document.getElementById('v2c-tab').classList[1] === 'active') {
 
         var netSnmpCommand = document.getElementsByTagName('select')['netSnmpCommand'].value;
         var ipV4V6 = document.getElementById('ipV4V6').value;
         var community = document.getElementById('community').value;
         var oid = document.getElementById('oid').value;
-        var snmpValue = document.getElementById('snmpValue').value;
+        var snmpSetValue = document.getElementById('snmpSetValue').value;
 
-        if(netSnmpCommand != 'snmptrap'){
+        if (netSnmpCommand != 'snmptrap') {
 
             fullCommand = netSnmpCommand + ' -c ' + community + ' -v 2c ' + ipV4V6 + ' ' + oid;
 
-            if(snmpValue){
+            if (snmpSetValue) {
                 fullCommand += ' s ' + snmpValue;
             }
         }
-
+        console.log(fullCommand);
         connSocket(fullCommand);
 
     } else {
 
-        var ipV4V6 = document.getElementById('ipV4V6').value;
-        var command = document.getElementById('command').value;
-        var securityName = document.getElementById('securityName').value;
+        var command = document.getElementsByTagName('select')['netSnmpCommandV3'].value;
+        var ipV4 = document.getElementById('ipv4').value;
+        var userName = document.getElementById('userName').value;
         var authProtocol = document.getElementsByTagName('select')['authProtocol'].value;
         var privProtocol = document.getElementsByTagName('select')['privProtocol'].value;
-        var authKey = document.getElementById('authKey').value;
-        var privKey = document.getElementById('privKey').value;
-        var context = document.getElementById('context').value;
+        var authKey = document.getElementById('auth-key').value;
+        var privKey = document.getElementById('priv-key').value;
+        var oidv3 = document.getElementById('oidv3').value;
+        var snmpSetValueV3 = document.getElementById('snmpSetValueV3').value;
 
-        //fullCommand = command + '-v 3 -n "" -u ' +
+        if (netSnmpCommand != 'snmptrap') {
+            if (authProtocol === 'null') {
 
-        connSocket(fullcommand);
+                fullCommand = command + ' -v 3 -n "" -u ' + userName + ' -l noAuthNoPriv ' + ipV4 + ' ' + oidv3;
+            } else if (authProtocol && privProtocol == 'null') {
+
+                fullCommand = command + ' -v 3 -n "" -u ' + userName + ' -a ' + authProtocol + ' -A ' + authKey + ' -l authNoPriv ' + ipV4 + ' ' + oidv3;
+            } else {
+                fullCommand = command + ' -v 3 -n "" -u ' + userName + ' -a ' + authProtocol + ' -A ' + authKey + ' -x ' + privProtocol + ' -X ' + privKey + ' -l authPriv ' + ipV4 + ' ' + oidv3;
+            }
+
+            if (snmpSetValueV3) {
+
+                fullCommand += ' s ' + snmpSetValueV3;
+            }
+        }
+        console.log(fullCommand);
+        connSocket(fullCommand);
 
     }
 
@@ -50,13 +66,13 @@ function snmpOptions() {
 var connSocket = function(command) {
 
     document.getElementById('outcome').innerHTML = '';
-    var socket = io('http://localhost:3000');
+    var socket = io('http://192.168.1.5:3000');
 
     socket.emit('snmpCommand', {
         command: command
     });
 
-    socket.on('response', (data) => {
+    socket.on('response', function(data) {
         if (data.outcome != 'false') {
 
             var resultado = data.outcome;

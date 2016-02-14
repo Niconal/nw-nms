@@ -57,7 +57,7 @@
                                                     </div>
                                                     <div class="form-group" style="display:none" id="snmpsetContainer">
                                                         <label>Valor oid:</label>
-                                                        <input id="snmpValue" class="form-control" name="snmpValue" type="text" placeholder="valor oid"/>
+                                                        <input id="snmpSetValue" class="form-control" name="snmpSetValue" type="text" placeholder="valor oid"/>
                                                     </div>
                                                     <button id="submitCode" name="submitCode" class="btn btn-info" type="button" onclick="return snmpOptions();">Ejecutar</button>
                                                 </form>
@@ -67,11 +67,27 @@
                                             <secttion class="v3 box"  id="v3" >
                                                 <div class="form-group">
                                                     <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Nombre de securidad:</label>
-                                                            <input class="form-control" id="securityName" name="securityName" placeholder="security name" type="text">
+                                                        <div class="form-group" id="commandSelectV3">
+                                                            <label style="width:100%">
+                                                                Comando:
+                                                                <select class="form-control m-b-10" name="netSnmpCommandV3">
+                                                                    <option value="snmpget">snmpget</option>
+                                                                    <option value="snmpgetnext">snmpgetnext</option>
+                                                                    <option value="snmpwalk">snmpwalk</option>
+                                                                    <option value="snmpset">snmpset</option>
+                                                                    <option value="snmpbulkget">snmptrap</option>
+                                                                </select>
+                                                            </label>
                                                         </div>
                                                         <div class="form-group">
+                                                            <label>Dirección IP:</label>
+                                                            <input class="form-control" id="ipv4" name="ipv4" placeholder="dirección ip" type="text">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Nombre de usuario:</label>
+                                                            <input class="form-control" id="userName" name="userName" placeholder="nombre de usuario" type="text">
+                                                        </div>
+                                                        <div class="form-group" id="authProtocolSelect">
                                                             <label style="width:100%">
                                                                 Protocolo de autenticación:
                                                                 <select class="form-control m-b-10" name="authProtocol">
@@ -81,7 +97,11 @@
                                                                 </select>
                                                             </label>
                                                         </div>
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="authkey" style="block">
+                                                            <label>Clave de autenticación:</label>
+                                                            <input class="form-control" id="auth-key" name="authKey" placeholder="auth key" type="text">
+                                                        </div>
+                                                        <div class="form-group" id="privProtocolSelect">
                                                             <label style="width:100%">
                                                                 Protocolo de privacidad:
                                                                 <select class="form-control m-b-10" name="privProtocol">
@@ -91,29 +111,19 @@
                                                                 </select>
                                                             </label>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label>Clave de autenticación:</label>
-                                                            <input class="form-control" id="authkey" name="authkey" placeholder="auth key" type="text">
-                                                        </div>
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="privkey" style="block">
                                                             <label>Clave de privacidad:</label>
-                                                            <input class="form-control" id="securityName" name="privKey" placeholder="priv key" type="text">
+                                                            <input class="form-control" id="priv-key" name="privKey" placeholder="priv key" type="text">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label style="width:100%">
-                                                                Nivel de seguridad
-                                                                <select class="form-control m-b-10" name="levelSecurity">
-                                                                    <option value="noAuthNoPriv">noAuthNoPriv</option>
-                                                                    <option value="authNoPriv">authNoPriv</option>
-                                                                    <option value="authPriv">authPriv</option>
-                                                                </select>
-                                                            </label>
+                                                            <label>OID:</label>
+                                                            <input class="form-control" id="oidv3" name="oidv3" placeholder="OID" type="text">
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label>Contexto:</label>
-                                                            <input class="form-control" id="securityName" name="context" placeholder="context" type="text">
+                                                        <div class="form-group" style="display:none" id="snmpSetContainerV3">
+                                                            <label>Valor oid:</label>
+                                                            <input id="snmpSetValueV3" class="form-control" name="snmpSetValueV3" type="text" placeholder="valor oid"/>
                                                         </div>
-                                                        <button id="submitCode" name="submitCode" class="btn btn-info" type="button" onclick="return snmpOptions();">Ejecutar</button>
+                                                        <button id="submitCodeV3" name="submitCode" class="btn btn-info" type="button" onclick="return snmpOptions();">Ejecutar</button>
                                                     </div>
                                                 </div>
                                             </secttion>
