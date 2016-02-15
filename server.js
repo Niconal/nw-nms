@@ -4,24 +4,32 @@ const Inert = require('inert');
 const Routes = require('./routes');
 const HapiMarko = require('hapi-marko');
 const WebSocket = require('./utils/WebSockets');
+const config = require('./config/app');
+const commands = require('./config/commands').allowed
+const UDPSocket = require('./utils/UDPSocket');
 
 require('marko/compiler').defaultOptions.writeToDisk = false;
 
 const server = new Hapi.Server();
 
 server.connection({
-    port: 3000
+    host: config.host,
+    port: config.port
 });
 
-server.register([{
+server.register([
+    Inert,
+    Routes, {
         register: HapiMarko,
         options: {
             templatesDir: __dirname + '/templates'
         }
-    },
-    Inert,
-    Routes,
-    WebSocket,
+    }, {
+        register: WebSocket,
+        options: {
+            allowed: commands
+        }
+    }
 ], (err) => {
 
     Hoek.assert(!err, err);

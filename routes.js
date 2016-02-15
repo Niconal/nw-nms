@@ -1,5 +1,6 @@
 'use strict';
 const Path = require('path');
+const Fs = require('fs');
 
 exports.register = function(server, options, next) {
 
@@ -9,6 +10,19 @@ exports.register = function(server, options, next) {
         handler: function(request, reply) {
             reply.marko('index', {
                 message: 'Networks System Manager'
+            });
+        }
+    }, {
+        method: 'GET',
+        path: '/traps',
+        handler: function (request, reply) {
+
+            Fs.readFile('/var/log/snmptrapd.log', 'utf8', function(err, data){
+                console.log()
+                reply.marko('traps', {
+                    err: err,
+                    info: data
+                })
             });
         }
     }, {

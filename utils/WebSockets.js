@@ -1,11 +1,11 @@
 'use strict';
 
-const commands = require('../config/commands').allowed;
 const ChildProcess = require('./ChildProcess');
-
+//const UDPSocket = require('./UDPSocket');
+const fs = require('fs');
 const cp = new ChildProcess();
 
-exports.register = function(server, options, next) {
+exports.register = function(server, commands, next) {
 
     const io = require('socket.io')(server.listener);
 
@@ -16,7 +16,7 @@ exports.register = function(server, options, next) {
             const commandAll = data.command.split(" ");
             const command = commandAll[0];
 
-            if (commands.indexOf(command) == -1) {
+            if (commands.allowed.indexOf(command) == -1) {
                 conn.emit('response', {
                     outcome: 'Comando no disponible'
                 });
@@ -44,6 +44,27 @@ exports.register = function(server, options, next) {
                 });
             }
         });
+
+        fs.watch('/var/log/snmptrapd.log', function (event, filename) {
+            console.log('event is: ' + event);
+            if (filename) {
+                conn.emit('snmptrap', {
+                    message: filename
+                });
+                console.log('filename provided: ' + filename);
+            } else {
+                console.log('filename not provided');
+            }
+        });
+        /*UDPSocket.getInstance((message, remote) => {
+
+            const data = message.toString('utf8');
+
+            conn.emit('snmptrap', {
+                message: data,
+                remote: remote
+            });
+        });*/
     });
     next();
 };

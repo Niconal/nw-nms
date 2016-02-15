@@ -1,3 +1,27 @@
+var socket = '';
+
+window.onload = function() {
+    $('.alert-autocloseable-danger').hide();
+    socket = io('http://192.168.1.7:3000');
+    var count = 0;
+    socket.on('snmptrap', function(data){
+        count++;
+
+        document.getElementsByClassName('countTraps')[0].innerHTML = count;
+        document.getElementsByClassName('countTraps')[1].innerHTML = count;
+        document.getElementsByClassName('countTraps')[0].className = 'label label-danger countTraps';
+
+        $('.alert-autocloseable-danger').show();
+        document.getElementById('messageTrap').innerHTML= 'nuevas traps registradas en '+data.message + 'ver traps generadas <a href="http:192.168.1.7:3000/traps">aquí</a>';
+        $('.alert-autocloseable-danger').delay(15000).fadeOut("slow", function() {
+            // Animation complete.
+            $('#autoclosable-btn-danger').prop("disabled", false);
+        });
+
+        console.log(data);
+    });
+};
+
 function snmpCommand() {
 
     document.getElementById('outcome').innerHTML = '';
@@ -66,7 +90,6 @@ function snmpOptions() {
 var connSocket = function(command) {
 
     document.getElementById('outcome').innerHTML = '';
-    var socket = io('http://192.168.1.5:3000');
 
     socket.emit('snmpCommand', {
         command: command
